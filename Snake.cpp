@@ -1,4 +1,5 @@
 #include "Snake.h"
+#include <algorithm>
 
 Snake::Snake(Sound deathSound)
 {
@@ -9,11 +10,77 @@ Snake::Snake(Sound deathSound)
 
 void Snake::Draw()
 {
-    for(int i = 0; i < this->positions.size(); i++)
+    for(int i = (int)positions.size() - 1; i >= 0; i--)
     {
-        DrawRectangle((positions.at(i).x), positions.at(i).y, GRIDSIZE, GRIDSIZE, this->color);
+        float EyeSize = GRIDSIZE/3;
+        Rectangle rec = {positions.at(i).x, positions.at(i).y, GRIDSIZE, GRIDSIZE};
+        Color col = {std::clamp(230 - (i * 20), 0, 255), 41, 55, 255};
+        DrawRectangleRounded(rec, 0.3f, 10, col);
+        DrawRectangleRoundedLines(rec, 0.3f, 10, 5, BLACK);
+        if(i == 0)
+        {
+            if(abs(direction.x))
+            {
+                if(direction.x == 1.0f)
+                {
+                    Rectangle r = {positions.at(i).x + GRIDSIZE - EyeSize, positions.at(i).y, EyeSize, EyeSize};
+                    DrawRectangleRounded(r, 0.3f, 10, WHITE);
+                    DrawRectangleRoundedLines(r, 0.3f, 10, 5, BLACK);
+                    r = {r.x + EyeSize/2, r.y + EyeSize/3, EyeSize/2, EyeSize/2};
+                    DrawRectangleRounded(r, 0.9f, 10, BLACK);
+                    r = {positions.at(i).x + GRIDSIZE - EyeSize, positions.at(i).y + (GRIDSIZE - EyeSize), EyeSize, EyeSize};
+                    DrawRectangleRounded(r, 0.3f, 10, WHITE);
+                    DrawRectangleRoundedLines(r, 0.3f, 10, 5, BLACK);
+                    r = {r.x + EyeSize/2, r.y + EyeSize/3, EyeSize/2, EyeSize/2};
+                    DrawRectangleRounded(r, 0.9f, 10, BLACK);
+                }else if(direction.x == -1.0f)
+                {
+                    Rectangle r = {positions.at(i).x, positions.at(i).y, EyeSize, EyeSize};
+                    DrawRectangleRounded(r, 0.3f, 10, WHITE);
+                    DrawRectangleRoundedLines(r, 0.3f, 10, 5, BLACK);
+                    r = {r.x, r.y + EyeSize/3, EyeSize/2, EyeSize/2};
+                    DrawRectangleRounded(r, 0.9f, 10, BLACK);
+                    r = {positions.at(i).x, positions.at(i).y + (GRIDSIZE - EyeSize), EyeSize, EyeSize};
+                    DrawRectangleRounded(r, 0.3f, 10, WHITE);
+                    DrawRectangleRoundedLines(r, 0.3f, 10, 5, BLACK);
+                    r = {r.x, r.y + EyeSize/3, EyeSize/2, EyeSize/2};
+                    DrawRectangleRounded(r, 0.9f, 10, BLACK);
+                }
+            }
+            if(abs(direction.y))
+            {
+                if(direction.y == 1.0f)
+                {
+                    Rectangle r = {(positions.at(i).x), positions.at(i).y + GRIDSIZE - EyeSize, EyeSize, EyeSize};
+                    DrawRectangleRounded(r, 0.3f, 10, WHITE);
+                    DrawRectangleRoundedLines(r, 0.3f, 10, 5, BLACK);
+                    r = {r.x + EyeSize/3.5, r.y + EyeSize/2, EyeSize/2, EyeSize/2};
+                    DrawRectangleRounded(r, 0.9f, 10, BLACK);
+                    r={(positions.at(i).x) + GRIDSIZE - EyeSize, positions.at(i).y + GRIDSIZE - EyeSize, EyeSize, EyeSize};
+                    DrawRectangleRounded(r, 0.3f, 10, WHITE);
+                    DrawRectangleRoundedLines(r, 0.3f, 10, 5, BLACK);
+                    r = {r.x + EyeSize/3.5, r.y + EyeSize/2, EyeSize/2, EyeSize/2};
+                    DrawRectangleRounded(r, 0.9f, 10, BLACK);
+                }else if(direction.y == -1.0f)
+                {
+                    Rectangle r = {(positions.at(i).x), positions.at(i).y , EyeSize, EyeSize};
+                    DrawRectangleRounded(r, 0.3f, 10, WHITE);
+                    DrawRectangleRoundedLines(r, 0.3f, 10, 5, BLACK);
+                    r = {r.x + EyeSize/3.5, r.y, EyeSize/2, EyeSize/2};
+                    DrawRectangleRounded(r, 0.9f, 10, BLACK);
+                    r={(positions.at(i).x) + GRIDSIZE - EyeSize, positions.at(i).y, EyeSize, EyeSize};
+                    DrawRectangleRounded(r, 0.3f, 10, WHITE);
+                    DrawRectangleRoundedLines(r, 0.3f, 10, 5, BLACK);
+                    r = {r.x + EyeSize/3.5, r.y, EyeSize/2, EyeSize/2};
+                    DrawRectangleRounded(r, 0.9f, 10, BLACK);
+
+                }
+            }   
+
+        }
     }
-}
+ }
+
 
 Vector2 Snake::get_head_position()
 {
@@ -46,7 +113,7 @@ void Snake::move()
     }
     
     this->positions.insert(this->positions.begin(), new_pos);
-    if (this->positions.size() > this->length)
+    if (this->positions.size() >= this->length)
         this->positions.pop_back();
 }
 

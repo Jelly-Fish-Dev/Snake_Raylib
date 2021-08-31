@@ -10,5 +10,5 @@ public:
     int x_pos = 1;
     int y_pos = 1; 
 private:
-    Color color = YELLOW;
+    Color color = ORANGE;
 };

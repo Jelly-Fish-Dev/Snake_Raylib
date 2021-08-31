@@ -18,6 +18,6 @@ public:
     Vector2 direction = {1.0f, 0.0f};
 private:
     std::vector <Vector2> positions;
-    Color color = GREEN;
+    Color color = RED;
     Sound deathSound;
 };

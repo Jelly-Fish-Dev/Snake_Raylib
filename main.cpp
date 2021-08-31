@@ -13,7 +13,13 @@ void drawGameGrid()
     {
         for(int y = 0; y < GRID_HEIGHT; y++)
         {
-            DrawRectangleLines((x*GRIDSIZE), (y*GRIDSIZE), GRIDSIZE, GRIDSIZE, WHITE);
+            Color col;
+            if ((x+y)%2 == 0)
+                col = DARKBLUE;
+            else
+                col = DARKGREEN;
+            
+            DrawRectangle((x*GRIDSIZE), (y*GRIDSIZE), GRIDSIZE, GRIDSIZE, col);
         }
     }
 }
@@ -28,7 +34,7 @@ int main(void)
     Sound deathSound = LoadSound("resources/death.wav");
     Music chubbyCat = LoadMusicStream("resources/Chubby Cat.mp3");
     Snake snake = Snake(deathSound);
-    SetMusicVolume(chubbyCat, 0.5f);
+    SetMusicVolume(chubbyCat, 0.3f);
 
     PlayMusicStream(chubbyCat);
 
@@ -48,22 +54,19 @@ int main(void)
                 prev_time = GetTime();
             }
             ClearBackground(BLACK);
-            snake.Draw();
-            food.Draw();
             drawGameGrid();
+            food.Draw();
+            snake.Draw();
             char *text;
-            if (snake.get_pos().x == food.x_pos * GRIDSIZE)
+            if (snake.get_pos().x == food.x_pos * GRIDSIZE && snake.get_pos().y == food.y_pos * GRIDSIZE)
             {
-                if (snake.get_pos().y == food.y_pos * GRIDSIZE)
-                {
-                    snake.length += 1;
-                    snake.score += 1;
-                    PlaySound(pointSound);
-                    food.randomize_position();
-                }
+                food.randomize_position();
+                snake.length += 1;
+                snake.score += 1;
+                PlaySound(pointSound);
             }
-            sprintf(text, "Score: %d     FPS:%i", snake.score, GetFPS());
-            DrawText(text, 5, 440, 32, WHITE);
+            sprintf(text, "Score: %d", snake.score);
+            DrawText(text, 5, SCREEN_HEIGHT - TEXT_SIZE, TEXT_SIZE, WHITE);
         EndDrawing();
         UpdateMusicStream(chubbyCat);
 
