@@ -14,5 +14,7 @@ void Food::randomize_position()
 
 void Food::Draw()
 {
-    DrawRectangle(this->x_pos * GRIDSIZE, this->y_pos * GRIDSIZE, GRIDSIZE, GRIDSIZE, this->color);
+    Rectangle rec = {this->x_pos*GRIDSIZE, this->y_pos*GRIDSIZE, GRIDSIZE, GRIDSIZE};
+    DrawRectangleRec(rec, this->color);
+    DrawRectangleRoundedLines(rec, 0.3f, 10, 5, BLACK);
 }

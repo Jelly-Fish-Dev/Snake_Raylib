@@ -15,9 +15,9 @@ void drawGameGrid()
         {
             Color col;
             if ((x+y)%2 == 0)
-                col = DARKBLUE;
+                col = {47, 36, 64, 255};
             else
-                col = DARKGREEN;
+                col = {198, 183, 155, 255};
             
             DrawRectangle((x*GRIDSIZE), (y*GRIDSIZE), GRIDSIZE, GRIDSIZE, col);
         }

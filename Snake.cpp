@@ -14,7 +14,7 @@ void Snake::Draw()
     {
         float EyeSize = GRIDSIZE/3;
         Rectangle rec = {positions.at(i).x, positions.at(i).y, GRIDSIZE, GRIDSIZE};
-        Color col = {std::clamp(230 - (i * 20), 0, 255), 41, 55, 255};
+        Color col = {std::clamp(255 - (i * 20), 50, 255), 37, 17, 255};
         DrawRectangleRounded(rec, 0.3f, 10, col);
         DrawRectangleRoundedLines(rec, 0.3f, 10, 5, BLACK);
         if(i == 0)
